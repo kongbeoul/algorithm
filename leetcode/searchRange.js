@@ -4,31 +4,27 @@
  * @return {number[]}
  */
 var searchRange = function(nums, target) {
-    if(nums.length === 0) return [-1, -1];
+    const { length } = nums; 
+    let firstIndex = 0; 
+    let lastIndex = length - 1; 
+    while (firstIndex <= lastIndex) { 
+        const midIndex = Math.floor((firstIndex + lastIndex) / 2); 
+        if (nums[midIndex] === target) { 
+            firstIndex = midIndex; 
+            lastIndex = midIndex; 
+            break; 
+        } 
+        if (nums[midIndex] < target) {
+            firstIndex = midIndex + 1; 
+        } else { 
+            lastIndex = midIndex - 1; 
+        } 
+    } 
+    if (firstIndex > lastIndex) { return [-1, -1]; } 
 
-    function bisectLeft(array, start, end, target) {
-        while(start <= end) {
-            const mid = Math.floor((start + (end - start)) / 2);
-            if(target <= array[mid]) end = mid - 1;
-            else start = mid + 1;
-        }
-
-        return start;
-    }
-
-    function bisectRight(array, start, end, target) {
-        while(start <= end) {
-            const mid = Math.floor((start + (end - start)) / 2);
-            if(target < array[mid]) end = mid - 1;
-            else start = mid + 1;
-        }
-        return start;
-    }
-
-    const start = bisectLeft(nums, 0, nums.length - 1, target);
-    const end = bisectRight(nums, start, nums.length - 1, target) - 1;
-
-    return [ start, end ]
+    while (nums[firstIndex - 1] === target) firstIndex--; 
+    while (nums[lastIndex + 1] === target) lastIndex++; 
+    return [firstIndex, lastIndex];
 };
 
-console.log(searchRange([0, 0, 0, 1, 2, 3], 0))
+console.log(searchRange([1], 1))
