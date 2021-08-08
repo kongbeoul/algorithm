@@ -39,9 +39,7 @@
 
     }
 
-    console.log(image);
-
-
+    return image;
 };
 
 console.log(floodFill(
