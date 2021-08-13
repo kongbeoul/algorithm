@@ -1,7 +1,11 @@
 function solution(rows, columns, queries) {
-    const map = new Array(rows).fill(null).map((_, i) => {
+  
+    let map = new Array(rows).fill(null).map((_, i) => {
         return new Array(columns).fill(null).map((_, j) => i * columns + (j + 1))
     })
+    let copy = map.map(v => [...v ]);
+
+    const answer = [];
 
     queries = queries.map(query => query.map(q => --q));
 
@@ -11,34 +15,50 @@ function solution(rows, columns, queries) {
         let left = sy;
         let right = ey;
 
-        while(top <= bottom) {
+        let min = Number.MAX_SAFE_INTEGER;
+
+        while(top < bottom) {
+
             while(left < right) {
-                console.log(map[top][left])
+                const value = map[top][left];
+                min = Math.min(min, value);
                 left++;
+                copy[top][left] = value;
             }
-            console.log(map[top][left])
+
+            const value = map[top][left];
+            min = Math.min(min, value);
             top++;
+            copy[top][left] = value;
         }
 
-        left -= 1;
         right = sy;
-        top -= 1;
         bottom = sx;
 
         while(top > bottom) {
+
             while(left > right) {
-                console.log(map[top][left])
+                const value = map[top][left];
+                min = Math.min(min, value);
                 left--;
+                copy[top][left] = value;
             }
-            console.log(map[top][left]);
+
+            const value = map[top][left];
+            min = Math.min(min, value);
             top--;
+            copy[top][left] = value;
         }
 
+        answer.push(min);
 
+        map = copy.map(v => [...v ]);
+        copy = map.map(v => [...v ]);
     }
 
-
+     return answer;
 }
 
-// console.log(solution(6, 6, [[2,2,5,4]]))
-console.log(solution(3, 3, [[1,1,2,2]]))
+console.log(solution(6, 6, [[2,2,5,4], [3, 3, 6, 6], [5, 1, 6, 3]]))
+console.log(solution(3, 3, [[1,1,2,2], [1, 2, 2, 3], [2,1,3,2], [2,2,3,3]]));
+console.log(solution(100, 97, [[1,1,100,97]]))
