@@ -8,7 +8,7 @@ function solution(type, id, listener) {
         onEvent(event) {
             listener(event);
             if(this.parentNode !== null) {
-                this.parentNode.listener(event);
+                this.parentNode.onEvent(event);
             }
         },
         addChild(node) {
@@ -30,6 +30,6 @@ const button = solution('button', 'bar', event => console.log('bar', event));
 const div2 = solution('div', 'baz', event => console.log('baz', event));
 
 div.addChild(button);
-div.removeChild(button);
-div2.addChild(button);
+button.addChild(div2);
+div2.onEvent("click");
 
