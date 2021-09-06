@@ -1,30 +1,25 @@
 function solution(weights, head2head) {
-    const map = weights.reduce((a, c, k) => {
+    const map = weights.map((v, i) => {
  
-        const result = head2head[k].split("");
+        const result = head2head[i].split("");
        
-        const total = result.reduce((a, c) => {
-            if(c === 'W' || c === 'L') a++;
-            return a;
-        }, 0);
+        const len = result.filter(f => f !== "N").length;
 
         let winCount = 0,
             biggerThanSelfWinCount = 0;
 
-        for(let i = 0; i < result.length; i++) {
-            if(result[i] === "N") continue;
-            if(result[i] === "W") winCount++;
-            if(weights[i] > c && result[i] === "W") biggerThanSelfWinCount++
+        for(let j = 0; j < result.length; j++) {
+            if(result[j] === "N") continue;
+            if(result[j] === "W") winCount++;
+            if(weights[j] > v && result[j] === "W") biggerThanSelfWinCount++
         }
 
-        a.push({
-            weight: c,
-            number: k + 1,
-            rate: total === 0 ? 0 : winCount / total,
+        return {
+            weight: v,
+            number: i + 1,
+            rate: len === 0 ? 0 : winCount / len,
             biggerThanSelfWinCount
-        });
-
-        return a;
+        }
     }, []);
 
     map.sort((a, b) => {
@@ -42,7 +37,7 @@ function solution(weights, head2head) {
             }
         }
     })
-    console.log(map);
+
     return map.map(v => v.number);
     
 }
