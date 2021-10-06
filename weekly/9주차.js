@@ -9,7 +9,7 @@ function solution(n, wires) {
     }
 
     function bfs(start, queue, visited) {
-        if(start >= n) return;
+        if(start > n) return;
 
         for(let i = 1; i <= n; i++) {
             if(map[start][i] === 1 && !visited[i]) {
